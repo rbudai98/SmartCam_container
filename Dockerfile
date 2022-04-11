@@ -1,9 +1,9 @@
 ARG DEBIAN_FRONTEND=noninteractive
 FROM ubuntu:latest
 
-RUN apt-get update
-RUN apt-get install -y git
-RUN apt-get install -y cmake
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y cmake
 
 # Create workspace
 
