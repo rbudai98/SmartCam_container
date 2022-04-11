@@ -4,6 +4,6 @@ RUN apt-get update
 
 RUN mkdir -p /home/HELLOWORLD
 
-RUN cp . /home/HELLOWORLD
+RUN cp -r . /home/HELLOWORLD
 
 CMD echo robi >> test.txt
