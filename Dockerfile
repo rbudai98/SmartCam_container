@@ -1,8 +1,9 @@
+ARG DEBIAN_FRONTEND=noninteractive
 FROM ubuntu:latest
 
 RUN apt-get update
 RUN apt-get install -y git
-RUN apt-get install cmake
+RUN apt-get install -y cmake
 
 # Create workspace
 
