@@ -5,11 +5,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y cmake
 
-# Create workspace
-
-RUN mkdir ~/Workspace
-RUN cd ~/Workspace
-
 # Installing glog for sdk
 
 RUN git clone --branch v0.3.5 --depth 1 https://github.com/google/glog
