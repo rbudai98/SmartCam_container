@@ -42,18 +42,8 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.SmartCamera}",
-              "createOptions": "{}"
-            }
-          },
-          "SimulatedTemperatureSensor": {
-            "version": "1.0",
-            "type": "docker",
-            "status": "running",
-            "restartPolicy": "always",
-            "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-simulated-temperature-sensor:1.0",
-              "createOptions": "{}"
+              "image": "docker pull adismartcam.azurecr.io/smartcamera:0.0.1-arm64v8",
+              "createOptions": "{\"HostConfig\":{\"Privileged\":true}}"
             }
           }
         }
@@ -61,7 +51,7 @@
     },
     "$edgeHub": {
       "properties.desired": {
-        "schemaVersion": "1.1",
+        "schemaVersion": "1.2",
         "routes": {
           "SmartCameraToIoTHub": "FROM /messages/modules/SmartCamera/outputs/* INTO $upstream",
           "sensorToSmartCamera": "FROM /messages/modules/SimulatedTemperatureSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/SmartCamera/inputs/input1\")"
