@@ -1,9 +1,14 @@
 ARG DEBIAN_FRONTEND=noninteractive
-FROM ubuntu:latest
+FROM arm64v8/ubuntu:bionic AS base
+
+RUN apt-get update && \
+      apt-get -y install sudo
+RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
+
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y cmake
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y cmake --fix-missing
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y g++
 
 # Installing glog for sdk
@@ -30,4 +35,9 @@ RUN cd build_protobuf && make -j4 && make install
 
 # Build the sdk
 RUN git clone https://github.com/analogdevicesinc/aditof_sdk.git
-RUN cd aditof_sdk && mkdir build && cd build && cmake -DWITH_EXAMPLES=off -DCMAKE_PREFIX_PATH="/opt/glog;/opt/protobuf;/opt/websockets" .. && make -j4
+RUN cd aditof_sdk && mkdir build && cd build && cmake -DWITH_EXAMPLES=off -DUSE_3D_SMART=on -DWITH_NETWORK=on -DCMAKE_PREFIX_PATH="/opt/glog;/opt/protobuf;/opt/websockets" .. && make -j4
+
+# Start server
+USER docker
+EXPOSE 5000
+#CMD ./aditof_sdk/build/apps/server/aditof-server
